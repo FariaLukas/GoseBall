@@ -29,7 +29,6 @@ public class PlayerController : PlayerBase
 
     private void Start()
     {
-        Manager.Instance.OnEndGame += End;
 
         for (int i = 0; i < units.Count; i++)
         {
@@ -71,32 +70,30 @@ public class PlayerController : PlayerBase
         if (insideBoard && _isSelected)
         {
             feedback.transform.position = hit.point;
+            
             if (Input.GetMouseButtonDown(0))
             {
-                Spawn();
+                foreach (var u in unitsDisplay)
+                {
+                    if (!u.active) continue;
+                    Spawn(unitsDisplay.IndexOf(u), feedback.transform.position);
+                    break;
+                }
             }
         }
 
     }
-//arrumar esse spawnm
-    private void Spawn()
+
+    protected override void Spawn(int index, Vector3 position)
     {
-        for (int i = 0; i < units.Count; i++)
-        {
-            if (unitsDisplay[i].active && units[i].manaCost <= manaCounter.currentMana)
-            {
-                Instantiate(units[i].unityPFB, feedback.transform.position, Quaternion.identity);
+        if (!CanSpawn(index)) return;
+        base.Spawn(index, position);
 
-                manaCounter.UseMana(units[i].manaCost);
+        unitsDisplay[index].rectTransform.DOMoveY(unitsDisplay[index].height, duration).SetEase(ease);
+        unitsDisplay[index].active = false;
 
-                unitsDisplay[i].rectTransform.DOMoveY(unitsDisplay[i].height, duration).SetEase(ease);
-                unitsDisplay[i].active = false;
-                units[i].counter.StartCooldown();
-
-                feedback.SetActive(false);
-                _isSelected = false;
-            }
-        }
+        feedback.SetActive(false);
+        _isSelected = false;
     }
 
     public void Select(Button button)
@@ -142,7 +139,7 @@ public class PlayerController : PlayerBase
         }
     }
 
-    private void End()
+    protected override void End()
     {
         _ended = true;
     }

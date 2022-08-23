@@ -340,6 +340,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1378d99e085b934892b45bc91c7d8a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onEndGame: {fileID: 11400000, guid: ace94dcb08f568346ba15f322918a5fe, type: 2}
   maxLife: 5
   health: {fileID: 7324801835332038468}
   random: 10

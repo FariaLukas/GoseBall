@@ -48,6 +48,7 @@ public class BTMoveToObject : BTNode
 
             character.LookAt(obj);
             character.position = Vector3.MoveTowards(character.position, obj.position, characterBase.atributes.speed * Time.deltaTime);
+            characterBase.animator.gameObject.transform.localRotation = Quaternion.identity;
             characterBase.currentState = State(_target.ToString() + ": " + obj.name + " - " + Vector3.Distance(character.position, obj.position));
             yield return null;
         }
@@ -69,10 +70,14 @@ public class BTMoveToObject : BTNode
         Transform currentObject = null;
         List<GameObject> objects = SceneObjects.Instance.GetObjectsWithTag(_target.ToString());
         float distance = Mathf.Infinity;
+        CharacterBase characterBase = character.GetComponent<CharacterBase>();
 
         foreach (GameObject o in objects)
         {
             if (character.gameObject == o) continue;
+
+            if (GetEnemyWithBall(characterBase.atributes, o, characterBase))
+                return o.transform;
 
             if (Condition(character, o, distance))
             {
@@ -91,5 +96,12 @@ public class BTMoveToObject : BTNode
     protected virtual float Result(Transform _this, GameObject target)
     {
         return Vector3.Distance(_this.position, target.transform.position);
+    }
+
+    private bool GetEnemyWithBall(SOAtributes atributes, GameObject enemy, CharacterBase character)
+    {
+        return atributes.characterType == CharacterType.Ranged && Manager.Instance.teamWithBall != null
+        && Manager.Instance.teamWithBall != atributes.allyLabel && enemy.TryGetComponent(out CharacterBase enBase)
+        && enBase.haveTheBall;
     }
 }

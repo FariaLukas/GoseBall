@@ -1961,12 +1961,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b7ece2ac71d5ba4b92595b4d97e1da0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onEndGame: {fileID: 11400000, guid: ace94dcb08f568346ba15f322918a5fe, type: 2}
+  onStunStarted: {fileID: 11400000, guid: 0ec538a2770df8b4eba6ff600dcfb743, type: 2}
+  onStunFinished: {fileID: 11400000, guid: 6dc4277e559e63746a5b17bf05f47a63, type: 2}
   atributes: {fileID: 11400000, guid: dc063824368ff3e4283150762aacc6a0, type: 2}
   health: {fileID: 3108181700449571215}
-  lifeDisplay: {fileID: 8815367312240945828}
-  rangeColor: {r: 0, g: 0.58431375, b: 0.5529412, a: 1}
-  hitColor: {r: 1, g: 1, b: 1, a: 1}
-  lifeColor: {r: 1, g: 0, b: 0, a: 1}
   ballPosition: {fileID: 2009235659576037414}
   projectile: Projetil
   haveTheBall: 0

@@ -12,7 +12,6 @@ public class EnemySpawner : PlayerBase
 
     private void Start()
     {
-        Manager.Instance.OnEndGame += End;
         InvokeRepeating(nameof(CreateEnemy), coolDown, coolDown);
     }
 
@@ -23,7 +22,7 @@ public class EnemySpawner : PlayerBase
         Spawn(index, new Vector3(pos2.x, transform.position.y, pos2.y));
     }
 
-    private void End()
+    protected override void End()
     {
         CancelInvoke();
     }

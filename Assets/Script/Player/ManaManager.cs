@@ -33,7 +33,6 @@ public class ManaManager : MonoBehaviour
 
     private void Start()
     {
-        Manager.Instance.OnEndGame += End;
 
         for (int i = 0; i < units.Count; i++)
         {

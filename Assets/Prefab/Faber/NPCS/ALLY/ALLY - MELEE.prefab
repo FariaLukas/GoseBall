@@ -1327,7 +1327,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: f345659d639b74c4eb5ab6619f7abb73, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
@@ -4709,6 +4709,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb1ceb5f188628747a93d8d5d822edac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onEndGame: {fileID: 11400000, guid: ace94dcb08f568346ba15f322918a5fe, type: 2}
+  onStunStarted: {fileID: 11400000, guid: 0ec538a2770df8b4eba6ff600dcfb743, type: 2}
+  onStunFinished: {fileID: 11400000, guid: 6dc4277e559e63746a5b17bf05f47a63, type: 2}
   atributes: {fileID: 11400000, guid: 75e8c23ecdd44874391f8c36e3c6a2bb, type: 2}
   health: {fileID: 467212190091251540}
   ballPosition: {fileID: 4281016501296340895}
@@ -4864,7 +4867,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8955356063438847660, guid: fbde5ed49f234b243883259a71e65753, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8985949237743195185, guid: fbde5ed49f234b243883259a71e65753, type: 3}
       propertyPath: m_Pivot.x

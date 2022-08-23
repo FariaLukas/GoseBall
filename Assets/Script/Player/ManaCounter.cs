@@ -3,17 +3,13 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-public class ManaCounter : MonoBehaviour
+public class ManaCounter : MonoBehaviour, IListener
 {
+    [SerializeField] protected CustomEvent onEndGame;
     public float maxMana = 10;
     public float currentMana { get; private set; }
 
     private bool _ended;
-
-    private void Start()
-    {
-        Manager.Instance.OnEndGame += StopManaFlow;
-    }
 
     private void Update()
     {
@@ -38,5 +34,31 @@ public class ManaCounter : MonoBehaviour
     {
         _ended = true;
 
+    }
+
+    private void OnEnable()
+    {
+        RegisterAsListener();
+    }
+
+    private void OnDisable()
+    {
+        UnregisterAsListener();
+    }
+
+    public void RegisterAsListener()
+    {
+        onEndGame?.RegisterListener(this);
+    }
+
+    public void UnregisterAsListener()
+    {
+        onEndGame?.UnregisterListener(this);
+    }
+
+    public void OnEventRaised(CustomEvent customEvent, object param)
+    {
+        if (customEvent.Equals(onEndGame))
+            StopManaFlow();
     }
 }

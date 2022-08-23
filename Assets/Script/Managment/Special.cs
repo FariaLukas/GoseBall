@@ -4,9 +4,13 @@ using UnityEngine;
 using System;
 using Sirenix.OdinInspector;
 
-public class Special : Singleton<Special>
+public class Special : Singleton<Special>, IListener
 {
     public Star currentStar { get; private set; }
+    [Title("Events")]
+    [SerializeField] private CustomEvent onEndGame;
+    [SerializeField] private CustomEvent onStunStarted, onStunFinished;
+
     public Action<string> OnStun;
     public Action<string> OnStunFinished;
 
@@ -30,7 +34,6 @@ public class Special : Singleton<Special>
     private void Start()
     {
         _timer = Random();
-        Manager.Instance.OnEndGame += End;
     }
 
     private void Update()
@@ -81,13 +84,42 @@ public class Special : Singleton<Special>
 
     private IEnumerator Stun()
     {
-        OnStun?.Invoke(_teamStuned);
+        onStunStarted.Raise(_teamStuned);
+        
         SoundManager.Instance?.PlaySfx(1, .5f, stun);
+        
         yield return new WaitForSeconds(stunnedTime);
-        OnStunFinished.Invoke(_teamStuned);
+        
+        onStunFinished.Raise(_teamStuned);
+        
         _teamStuned = null;
         _timer = Random();
         _canSpawn = true;
     }
 
+    private void OnEnable()
+    {
+        RegisterAsListener();
+    }
+
+    private void OnDisable()
+    {
+        UnregisterAsListener();
+    }
+
+    public void RegisterAsListener()
+    {
+        onEndGame?.RegisterListener(this);
+    }
+
+    public void UnregisterAsListener()
+    {
+        onEndGame?.UnregisterListener(this);
+    }
+
+    public void OnEventRaised(CustomEvent customEvent, object param)
+    {
+        if (customEvent.Equals(onEndGame))
+            End();
+    }
 }

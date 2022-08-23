@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
-using DG.Tweening;
-using Sirenix.OdinInspector;
 
 public class Manager : Singleton<Manager>
 {
@@ -17,7 +15,7 @@ public class Manager : Singleton<Manager>
     public GameObject winScreen;
 
     private Rigidbody _ballRigidbody;
-
+    public CustomEvent onEndGame;
     public Action OnEndGame;
     private GameObject _npc;
     private bool _gameEnded;
@@ -82,7 +80,7 @@ public class Manager : Singleton<Manager>
     {
         if (_gameEnded) return;
 
-        OnEndGame?.Invoke();
+        onEndGame.Raise();
 
         if (_scores[MoveTarget.Enemy].score >= maxPoints ||
         _scores[MoveTarget.Enemy].score > _scores[MoveTarget.Ally].score)

@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Sirenix.OdinInspector;
-public class TimerManager : Singleton<TimerManager>
-{
 
+public class TimerManager : MonoBehaviour, IListener
+{
+    [SerializeField] private CustomEvent onEndGame;
     [SerializeField] private TextMeshProUGUI timerText;
     [SerializeField] private float maxMatchTime = 20;
     [SerializeField] private AudioClip countdown;
@@ -16,13 +17,6 @@ public class TimerManager : Singleton<TimerManager>
     private void Start()
     {
         _timer = maxMatchTime;
-        Manager.Instance.OnEndGame += GameEnded;
-    }
-
-
-    private void OnDestroy()
-    {
-        Manager.Instance.OnEndGame -= GameEnded;
     }
 
     private void Update()
@@ -61,5 +55,31 @@ public class TimerManager : Singleton<TimerManager>
         _timer = 0;
 
         SoundManager.Instance?.StopSfx(countdown);
+    }
+
+    private void OnEnable()
+    {
+        RegisterAsListener();
+    }
+
+    private void OnDisable()
+    {
+        UnregisterAsListener();
+    }
+
+    public void RegisterAsListener()
+    {
+        onEndGame?.RegisterListener(this);
+    }
+
+    public void UnregisterAsListener()
+    {
+        onEndGame?.UnregisterListener(this);
+    }
+
+    public void OnEventRaised(CustomEvent customEvent, object param)
+    {
+        if (customEvent.Equals(onEndGame))
+            GameEnded();
     }
 }

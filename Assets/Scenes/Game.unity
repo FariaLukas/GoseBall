@@ -6109,7 +6109,6 @@ GameObject:
   - component: {fileID: 786709687}
   - component: {fileID: 786709686}
   - component: {fileID: 786709692}
-  - component: {fileID: 786709688}
   - component: {fileID: 786709691}
   - component: {fileID: 786709689}
   - component: {fileID: 786709690}
@@ -6139,6 +6138,7 @@ MonoBehaviour:
   enemyBar: {fileID: 1262011971}
   loseScreen: {fileID: 379610357}
   winScreen: {fileID: 1225431778}
+  onEndGame: {fileID: 11400000, guid: ace94dcb08f568346ba15f322918a5fe, type: 2}
 --- !u!4 &786709684
 Transform:
   m_ObjectHideFlags: 0
@@ -6171,6 +6171,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6757f84b55dbeb4eb59c933f0a8c646, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onEndGame: {fileID: 11400000, guid: ace94dcb08f568346ba15f322918a5fe, type: 2}
+  onStunStarted: {fileID: 11400000, guid: 0ec538a2770df8b4eba6ff600dcfb743, type: 2}
+  onStunFinished: {fileID: 11400000, guid: 6dc4277e559e63746a5b17bf05f47a63, type: 2}
   starPFB: {fileID: 6194008187160894650, guid: 39fad3f17f5ec5e42819d2669ea3696f, type: 3}
   arenaSize: 10
   timeToSpawn: {x: 8, y: 10}
@@ -6200,61 +6203,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2b668dae661b2a40895f4193582b62e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &786709688
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 786709682}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1438ea33bfb44f2479070b5814db40cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  units:
-  - unityPFB: {fileID: 4599680202757306331, guid: 6032ed5988917364f9867d4ed18a4d41, type: 3}
-    manaCost: 3
-    counter:
-      maxCooldown: 6
-  - unityPFB: {fileID: 7848075164381697189, guid: e524152d93e57e949963bfa8504321ea, type: 3}
-    manaCost: 5
-    counter:
-      maxCooldown: 9
-  - unityPFB: {fileID: 4687969496423262797, guid: 7f044c377804de94a917d751d7f47440, type: 3}
-    manaCost: 8
-    counter:
-      maxCooldown: 12
-  unitsDisplay:
-  - button: {fileID: 388955952}
-    charging: {fileID: 65185014}
-    cost: {fileID: 1083405335}
-    active: 0
-    height: 0
-    rectTransform: {fileID: 0}
-  - button: {fileID: 269647898}
-    charging: {fileID: 1639198983}
-    cost: {fileID: 1853117382}
-    active: 0
-    height: 0
-    rectTransform: {fileID: 0}
-  - button: {fileID: 642167539}
-    charging: {fileID: 1781787885}
-    cost: {fileID: 2008698999}
-    active: 0
-    height: 0
-    rectTransform: {fileID: 0}
-  mana: {fileID: 786709691}
-  manaDisplay: {fileID: 1974891503}
-  manaSpent: {fileID: 1019937998}
-  manaText: {fileID: 1115921838}
-  mask:
-    serializedVersion: 2
-    m_Bits: 64
-  feedback: {fileID: 828071658}
-  ease: 27
-  duration: 0.2
-  endPos: 36
 --- !u!114 &786709689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6267,6 +6215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19b775d0ffa34c24e99816b9b49741d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onEndGame: {fileID: 11400000, guid: ace94dcb08f568346ba15f322918a5fe, type: 2}
   timerText: {fileID: 1516828636}
   maxMatchTime: 80
   countdown: {fileID: 8300000, guid: a301139fb87771642b2a24996f0f93b6, type: 3}
@@ -6295,6 +6244,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bea720eda7f99d146a3982408d703812, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onEndGame: {fileID: 11400000, guid: ace94dcb08f568346ba15f322918a5fe, type: 2}
   maxMana: 10
 --- !u!114 &786709692
 MonoBehaviour:
@@ -6308,20 +6258,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67bd634779368ae43af45d1364454869, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onEndGame: {fileID: 11400000, guid: ace94dcb08f568346ba15f322918a5fe, type: 2}
   units:
   - unityPFB: {fileID: 4599680202757306331, guid: 6032ed5988917364f9867d4ed18a4d41, type: 3}
     manaCost: 3
     counter:
-      maxCooldown: 6
+      maxCooldown: 9
   - unityPFB: {fileID: 7848075164381697189, guid: e524152d93e57e949963bfa8504321ea, type: 3}
     manaCost: 5
     counter:
-      maxCooldown: 9
+      maxCooldown: 13
   - unityPFB: {fileID: 4687969496423262797, guid: 7f044c377804de94a917d751d7f47440, type: 3}
     manaCost: 8
     counter:
-      maxCooldown: 12
+      maxCooldown: 15
   manaCounter: {fileID: 786709691}
+  debug: 0
   unitsDisplay:
   - button: {fileID: 388955952}
     charging: {fileID: 65185014}
@@ -12769,23 +12721,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22f64dd6121fbae44bd0bd88d43570b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onEndGame: {fileID: 11400000, guid: ace94dcb08f568346ba15f322918a5fe, type: 2}
   units:
   - unityPFB: {fileID: 6237507159781049941, guid: 9022d58bb0bad644abd5f69c81aee922, type: 3}
     manaCost: 3
     counter:
-      maxCooldown: 5
+      maxCooldown: 6
   - unityPFB: {fileID: 2836079131868213145, guid: 0be20cfd951e5f94f8c6af5c056b20fa, type: 3}
     manaCost: 5
     counter:
-      maxCooldown: 8
+      maxCooldown: 10
   - unityPFB: {fileID: 5504228031255812892, guid: 77da90606b8789746ae9ee43b216f4ee, type: 3}
     manaCost: 8
     counter:
-      maxCooldown: 11
+      maxCooldown: 12
   manaCounter: {fileID: 1711177161}
+  debug: 0
   rangeX: 10
   rangeZ: {x: 3.5, y: 8.5}
-  coolDown: 5
+  coolDown: 1
 --- !u!4 &1711177160
 Transform:
   m_ObjectHideFlags: 0
@@ -12812,6 +12766,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bea720eda7f99d146a3982408d703812, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onEndGame: {fileID: 11400000, guid: ace94dcb08f568346ba15f322918a5fe, type: 2}
   maxMana: 10
 --- !u!1 &1741481411
 GameObject:

@@ -4,8 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using Sirenix.OdinInspector;
 using DG.Tweening;
-public class CharacterBase : MonoBehaviour
+public class CharacterBase : MonoBehaviour, IListener
 {
+    [Title("Events")]
+    [SerializeField] private CustomEvent onEndGame;
+    [SerializeField] private CustomEvent onStunStarted, onStunFinished;
+
+    [Title("Setup")]
     public SOAtributes atributes;
     public Health health;
 
@@ -35,14 +40,6 @@ public class CharacterBase : MonoBehaviour
     private BehaviorTree _behavior;
     private Collider _collider;
     private Text text;
-
-    private void OnEnable()
-    {
-        Special.Instance.OnStun += Stun;
-        Special.Instance.OnStunFinished += EndStun;
-        Manager.Instance.OnEndGame += EndGame;
-        Init();
-    }
 
     protected virtual void Init()
     {
@@ -102,9 +99,6 @@ public class CharacterBase : MonoBehaviour
         GameObject death = Instantiate(deathPFB, transform.position, deathPFB.transform.rotation);
         Destroy(death, 3);
 
-        Manager.Instance.OnEndGame -= EndGame;
-        Special.Instance.OnStun -= Stun;
-        Special.Instance.OnStunFinished -= EndStun;
         health.onDie -= Die;
 
         DOTween.KillAll();
@@ -159,6 +153,44 @@ public class CharacterBase : MonoBehaviour
     {
         _behavior.StopAll();
         AnimationManager.Instance.SetBool(animator, "Run_", false);
+        AnimationManager.Instance.SetTrigger(animator, "Idle");
+    }
+
+    private void OnEnable()
+    {
+        RegisterAsListener();
+        Init();
+    }
+
+    private void OnDisable()
+    {
+        UnregisterAsListener();
+    }
+
+    public void RegisterAsListener()
+    {
+        onEndGame?.RegisterListener(this);
+        onStunStarted.RegisterListener(this);
+        onStunFinished.RegisterListener(this);
+    }
+
+    public void UnregisterAsListener()
+    {
+        onEndGame?.UnregisterListener(this);
+        onStunStarted.UnregisterListener(this);
+        onStunFinished.UnregisterListener(this);
+    }
+
+    public void OnEventRaised(CustomEvent customEvent, object param)
+    {
+        if (customEvent.Equals(onEndGame))
+            EndGame();
+
+        if (customEvent.Equals(onStunStarted))
+            Stun((string)param);
+
+        if (customEvent.Equals(onStunFinished))
+            EndStun((string)param);
     }
 
 }
