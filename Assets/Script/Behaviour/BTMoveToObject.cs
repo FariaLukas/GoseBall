@@ -67,11 +67,13 @@ public class BTMoveToObject : BTNode
 
     protected Transform GetObject(Transform character)
     {
-        Transform currentObject = null;
         List<GameObject> objects = SceneObjects.Instance.GetObjectsWithTag(_target.ToString());
+        if (objects == null) return null;
+        
+        Transform currentObject = null;
         float distance = Mathf.Infinity;
         CharacterBase characterBase = character.GetComponent<CharacterBase>();
-
+        
         foreach (GameObject o in objects)
         {
             if (character.gameObject == o) continue;

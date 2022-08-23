@@ -6296,10 +6296,13 @@ MonoBehaviour:
   manaDisplay: {fileID: 1974891503}
   manaSpent: {fileID: 1019937998}
   manaText: {fileID: 1115921838}
+  feedback: {fileID: 828071658}
   mask:
     serializedVersion: 2
     m_Bits: 64
-  feedback: {fileID: 828071658}
+  characterMask:
+    serializedVersion: 2
+    m_Bits: 256
   ease: 27
   duration: 0.2
   endPos: 36
@@ -12726,15 +12729,15 @@ MonoBehaviour:
   - unityPFB: {fileID: 6237507159781049941, guid: 9022d58bb0bad644abd5f69c81aee922, type: 3}
     manaCost: 3
     counter:
-      maxCooldown: 6
+      maxCooldown: 9
   - unityPFB: {fileID: 2836079131868213145, guid: 0be20cfd951e5f94f8c6af5c056b20fa, type: 3}
     manaCost: 5
     counter:
-      maxCooldown: 10
+      maxCooldown: 12
   - unityPFB: {fileID: 5504228031255812892, guid: 77da90606b8789746ae9ee43b216f4ee, type: 3}
     manaCost: 8
     counter:
-      maxCooldown: 12
+      maxCooldown: 14
   manaCounter: {fileID: 1711177161}
   debug: 0
   rangeX: 10

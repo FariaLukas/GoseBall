@@ -16,8 +16,8 @@ public class PlayerController : PlayerBase
     [SerializeField] private TextMeshProUGUI manaText;
 
     [Title("FeedBack")]
-    [SerializeField] private LayerMask mask;
     [SerializeField] private GameObject feedback;
+    [SerializeField] private LayerMask mask, characterMask;
 
     [Title("Animation")]
     [SerializeField] private Ease ease = Ease.OutBack;
@@ -63,14 +63,15 @@ public class PlayerController : PlayerBase
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         bool insideBoard = Physics.Raycast(ray, out hit, Mathf.Infinity, mask) &&
-         hit.collider.tag != "Enemy" && hit.collider.tag != "Ally";
+         hit.collider.tag != "Enemy" && hit.collider.tag != "Ally" &&
+         Physics.OverlapSphere(hit.point, 1, characterMask).Length == 0;
 
         feedback.SetActive(insideBoard && _isSelected);
 
         if (insideBoard && _isSelected)
         {
             feedback.transform.position = hit.point;
-            
+
             if (Input.GetMouseButtonDown(0))
             {
                 foreach (var u in unitsDisplay)
