@@ -2084,15 +2084,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6237507159781049941}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3181f524b80ec894f8eac867f3a2c912, type: 3}
+  m_Script: {fileID: 11500000, guid: eb1ceb5f188628747a93d8d5d822edac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   atributes: {fileID: 11400000, guid: c034d0c0be278d04c9573e6f3d6f5c7d, type: 2}
   health: {fileID: 50814343612983268}
-  lifeDisplay: {fileID: 6963858396437198829}
-  rangeColor: {r: 0.07058824, g: 0.34117648, b: 0.3254902, a: 1}
-  hitColor: {r: 1, g: 1, b: 1, a: 1}
-  lifeColor: {r: 1, g: 0, b: 0, a: 1}
   ballPosition: {fileID: 76803783155731823}
   projectile: Projetil
   haveTheBall: 0

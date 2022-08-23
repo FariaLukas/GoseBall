@@ -18,6 +18,7 @@ MonoBehaviour:
   enemyLabel: Ally
   allyLabel: Enemy
   range: 5
+  movementRange: 3
   speed: 1.5
   attackDelay: 1
   attackSync: 0.8

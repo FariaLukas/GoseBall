@@ -813,9 +813,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5137832930230943507}
   - component: {fileID: 1273695163101078889}
-  - component: {fileID: 4022950279489828079}
   m_Layer: 0
-  m_Name: Mouse
+  m_Name: PFB_Mouse
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -856,19 +855,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &4022950279489828079
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5478329298555790761}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10437f2a94c60444cbc66a6bb35cf03a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timeToDisable: 2
 --- !u!1 &5668317040436146573
 GameObject:
   m_ObjectHideFlags: 0

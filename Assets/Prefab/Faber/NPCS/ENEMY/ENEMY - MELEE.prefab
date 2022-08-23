@@ -78,7 +78,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: f345659d639b74c4eb5ab6619f7abb73, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
@@ -1071,15 +1071,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2836079131868213145}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d89976eb3a9bc2b46a5164966f724068, type: 3}
+  m_Script: {fileID: 11500000, guid: eb1ceb5f188628747a93d8d5d822edac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   atributes: {fileID: 11400000, guid: 388c61d19d9df7045aaeec85795e56ef, type: 2}
   health: {fileID: 792455102955821958}
-  lifeDisplay: {fileID: 593076789267388607}
-  rangeColor: {r: 0.13725491, g: 0.74509805, b: 0.7137255, a: 1}
-  hitColor: {r: 1, g: 1, b: 1, a: 1}
-  lifeColor: {r: 1, g: 0, b: 0, a: 1}
   ballPosition: {fileID: 8132104432158827683}
   projectile: Projetil
   haveTheBall: 0

@@ -5980,7 +5980,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -18.4021, y: -4.58197}
+  m_AnchoredPosition: {x: -18.4021, y: -4.5820312}
   m_SizeDelta: {x: -9.604, y: -12.164}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &752906253 stripped
@@ -8729,7 +8729,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sharedProfile: {fileID: 11400000, guid: 05979b9067620c449867f460ad35026f, type: 2}
+  sharedProfile: {fileID: 11400000, guid: 1f8f4a9b0aea3aa409c3a352edcedf6b, type: 2}
   isGlobal: 1
   blendDistance: 0
   weight: 1
@@ -12773,15 +12773,15 @@ MonoBehaviour:
   - unityPFB: {fileID: 6237507159781049941, guid: 9022d58bb0bad644abd5f69c81aee922, type: 3}
     manaCost: 3
     counter:
-      maxCooldown: 6
+      maxCooldown: 5
   - unityPFB: {fileID: 2836079131868213145, guid: 0be20cfd951e5f94f8c6af5c056b20fa, type: 3}
     manaCost: 5
     counter:
-      maxCooldown: 9
+      maxCooldown: 8
   - unityPFB: {fileID: 5504228031255812892, guid: 77da90606b8789746ae9ee43b216f4ee, type: 3}
     manaCost: 8
     counter:
-      maxCooldown: 12
+      maxCooldown: 11
   manaCounter: {fileID: 1711177161}
   rangeX: 10
   rangeZ: {x: 3.5, y: 8.5}
