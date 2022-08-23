@@ -6,11 +6,17 @@ using UnityEngine.UI;
 
 public class Star : MonoBehaviour
 {
+    [SerializeField] private int maxLife = 5;
+    public Health health;
     public float random;
     public NavMeshAgent agent;
     public Vector3 _target;
-    public Image lifeDisplay;
-    
+
+    private void OnEnable()
+    {
+        health.SetupLife(maxLife);
+    }
+
     private void Start()
     {
         SetTarget();
@@ -19,7 +25,6 @@ public class Star : MonoBehaviour
 
     private void Update()
     {
-        lifeDisplay.fillAmount = Special.Instance.currentStarLife / Special.Instance.starMaxLife;
         if (agent.remainingDistance < 3)
         {
             SetTarget();

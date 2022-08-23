@@ -27,6 +27,7 @@ public class Range : CharacterBase
         inversor.children.Add(new BTBallIsCollected());
 
         paralelo.children.Add(inversor);
+        //TODO:Mudar apenas no inspector
         paralelo.children.Add(new BTMoveToObject(atributes.targets[2], atributes.range - 2f));
 
         combat.children.Add(paralelo);

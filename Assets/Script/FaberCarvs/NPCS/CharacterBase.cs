@@ -6,11 +6,14 @@ using Sirenix.OdinInspector;
 using DG.Tweening;
 public class CharacterBase : MonoBehaviour
 {
-    public CharacterAtributes atributes;
+    public SOAtributes atributes;
+    public Health health;
+
     public Image lifeDisplay;
     public Color rangeColor = Color.yellow;
     public Color hitColor = Color.white;
     public Color lifeColor = Color.red;
+
     public Transform ballPosition;
     public string projectile;
     public bool haveTheBall;
@@ -36,6 +39,7 @@ public class CharacterBase : MonoBehaviour
     private BehaviorTree _behavior;
     private Collider _collider;
     private Text text;
+
     private void OnEnable()
     {
         Special.Instance.OnStun += Stun;
@@ -47,11 +51,15 @@ public class CharacterBase : MonoBehaviour
     protected virtual void Init()
     {
         _behavior = gameObject.AddComponent<BehaviorTree>();
-        _maxLife = atributes.life;
+
         _collider = GetComponent<Collider>();
         animator = GetComponentInChildren<Animator>();
-        lifeDisplay.fillAmount = atributes.life / _maxLife;
-        lifeDisplay.color = lifeColor;
+        
+        if (!health) health = GetComponent<Health>();
+
+        health.SetupLife(atributes.life);
+        health.onDie += Die;
+
         text = GetComponentInChildren<Text>();
         charRigidbody = GetComponent<Rigidbody>();
     }
@@ -67,26 +75,6 @@ public class CharacterBase : MonoBehaviour
         selector.children.Add(combat);
 
         _behavior.root = selector;
-    }
-
-    public virtual void TakeDamage(int damage)
-    {
-        atributes.life -= damage;
-        lifeDisplay.DOFillAmount(atributes.life / _maxLife, 0.1f);
-        lifeDisplay.color = lifeColor;
-        lifeDisplay.DOColor(hitColor, 0.05f).SetLoops(2, LoopType.Yoyo).OnComplete(() => lifeDisplay.color = lifeColor);
-        if (atributes.life <= 0)
-        {
-            Die();
-        }
-    }
-
-    public virtual void Heal(int heal)
-    {
-        lifeDisplay.color = lifeColor;
-        if (atributes.life < _maxLife)
-            atributes.life += heal;
-        lifeDisplay.DOFillAmount(atributes.life / _maxLife, 0.1f);
     }
 
     public virtual void HoldBall(GameObject ball)
@@ -117,11 +105,11 @@ public class CharacterBase : MonoBehaviour
         Manager.Instance.OnEndGame -= EndGame;
         Special.Instance.OnStun -= Stun;
         Special.Instance.OnStunFinished -= EndStun;
+        health.onDie -= Die;
 
         DOTween.KillAll();
 
         _behavior.StopAll();
-        Destroy(gameObject);
     }
 
     private void Stun(string tag)
@@ -142,7 +130,7 @@ public class CharacterBase : MonoBehaviour
 
                 Manager.Instance.DropBall();
                 haveTheBall = false;
-                
+
                 lifeDisplay.color = lifeColor;
             }
         }
@@ -165,7 +153,7 @@ public class CharacterBase : MonoBehaviour
         if (other.gameObject.CompareTag(projectile))
         {
             Destroy(other.gameObject);
-            TakeDamage(1);
+            health.TakeDamage(1);
         }
     }
 
@@ -178,6 +166,7 @@ public class CharacterBase : MonoBehaviour
     private void EndGame()
     {
         _behavior.StopAll();
+        AnimationManager.Instance.SetTrigger(animator, "Idle");
     }
 
 }

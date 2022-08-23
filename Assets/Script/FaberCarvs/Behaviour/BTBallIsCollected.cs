@@ -9,9 +9,7 @@ public class BTBallIsCollected : BTNode
         status = Status.FAILURE;
 
         if (Manager.Instance.ballIsHolded)
-        {
             status = Status.SUCCESS;
-        }
 
         yield break;
     }

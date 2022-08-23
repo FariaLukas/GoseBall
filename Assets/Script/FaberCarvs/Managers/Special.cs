@@ -6,21 +6,26 @@ using Sirenix.OdinInspector;
 
 public class Special : Singleton<Special>
 {
+    public Star currentStar { get; private set; }
+    public Action<string> OnStun;
+    public Action<string> OnStunFinished;
+
+    [Header("Spawn")]
     public GameObject starPFB;
-    public float starMaxLife;
-    public Vector2 timeToSpawn;
     public float arenaSize;
-    public float stunnedTime;
-    public float currentStarLife;
+
+    [SerializeField] public Vector2 timeToSpawn;
+
+    [Header("Stun")]
     public AudioClip stun;
-    private string _teamStuned;
+    [SerializeField] private float stunnedTime;
+
+
     [ReadOnly]
     [ShowInInspector]
     private float _timer;
     private bool _canSpawn = true;
-    public Action<string> OnStun;
-    public Action<string> OnStunFinished;
-    private GameObject _currentStar;
+    private string _teamStuned;
 
     private void Start()
     {
@@ -41,9 +46,9 @@ public class Special : Singleton<Special>
 
     public void TakeDamage(string enemyTeam)
     {
-        currentStarLife--;
+        currentStar.health.TakeDamage(1);
 
-        if (currentStarLife <= 0)
+        if (currentStar.health.currentLife <= 0)
         {
             _teamStuned = enemyTeam;
             StartCoroutine(Stun());
@@ -59,11 +64,14 @@ public class Special : Singleton<Special>
     private void Spawn()
     {
         _canSpawn = false;
-        currentStarLife = starMaxLife;
+        GameObject star = Instantiate(starPFB, GetNewPosition(), Quaternion.identity);
+        currentStar = star.GetComponent<Star>();
+    }
+
+    private Vector3 GetNewPosition()
+    {
         Vector2 area = UnityEngine.Random.insideUnitCircle;
-        Vector3 position = new Vector3(area.x * arenaSize, 2, area.y * arenaSize);
-        GameObject star = Instantiate(starPFB, position, Quaternion.identity);
-        _currentStar = star;
+        return new Vector3(area.x * arenaSize, 2, area.y * arenaSize);
     }
 
     private float Random()
@@ -71,10 +79,9 @@ public class Special : Singleton<Special>
         return UnityEngine.Random.Range(timeToSpawn.x, timeToSpawn.y);
     }
 
-    IEnumerator Stun()
+    private IEnumerator Stun()
     {
         OnStun?.Invoke(_teamStuned);
-        Destroy(_currentStar);
         SoundManager.Instance?.PlaySfx(1, .5f, stun);
         yield return new WaitForSeconds(stunnedTime);
         OnStunFinished.Invoke(_teamStuned);

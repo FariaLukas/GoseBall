@@ -41,11 +41,6 @@ public class Spawner : MonoBehaviour
             Vector2 area = Random.insideUnitCircle * _spawnRadius;
             Vector3 position = new Vector3(area.x, 2, area.y);
 
-            GameObject spawned = Pool.Instance?.GetPooledGameObject();
-
-            spawned.transform.position = position;
-            spawned.SetActive(true);
-
             SpawnObj();
         }
 

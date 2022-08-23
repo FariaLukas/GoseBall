@@ -8,7 +8,7 @@ using Sirenix.OdinInspector;
 
 public class ScreenAnimation : MonoBehaviour
 {
-    public Direction diretion;
+    public Direction direction;
     public float duration = 0.2f;
     public Ease easeIn = Ease.OutBack;
     public Ease easeOut = Ease.InBack;
@@ -29,7 +29,7 @@ public class ScreenAnimation : MonoBehaviour
     {
 
         image.gameObject.SetActive(true);
-        switch (diretion)
+        switch (direction)
         {
             case Direction.Top:
                 image.transform.DOLocalMoveY(_height, duration).SetEase(easeIn).From().OnComplete(() => CompleteIn());
@@ -48,7 +48,7 @@ public class ScreenAnimation : MonoBehaviour
 
     public void MoveOut()
     {
-        switch (diretion)
+        switch (direction)
         {
             case Direction.Top:
                 image.transform.DOLocalMoveY(_height, duration).SetEase(easeOut).OnComplete(() => ResetPos());
@@ -71,6 +71,7 @@ public class ScreenAnimation : MonoBehaviour
         image.transform.DOLocalMove(Vector3.zero, 0);
         image.gameObject.SetActive(false);
     }
+
     public void CompleteIn()
     {
         OnCompleteIn?.Invoke();

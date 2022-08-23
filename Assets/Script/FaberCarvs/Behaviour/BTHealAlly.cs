@@ -16,7 +16,7 @@ public class BTHealAlly : BTNode
 
         if (ally)
         {
-            if (ally.TryGetComponent(out CharacterBase characterBase))
+            if (ally.TryGetComponent(out Health health))
             {
                 AnimationManager.Instance.SetTrigger(support.animator, "Attack");
 
@@ -27,7 +27,7 @@ public class BTHealAlly : BTNode
 
                     GameObject pfb = GameObject.Instantiate(support.atributes.attackPFB, ally.transform.position, support.atributes.attackPFB.transform.rotation);
                     GameObject.Destroy(pfb, 3);
-                    characterBase.Heal(support.heal);
+                    health.Heal(support.heal);
                     status = Status.SUCCESS;
                 }
             }

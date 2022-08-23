@@ -8,10 +8,10 @@ public class BTEnemyInRange : BTNode
     {
         status = Status.FAILURE;
 
-        CharacterAtributes atributes = bt.GetComponent<CharacterBase>().atributes;
-        string label = atributes.enemyLabel;
+        SOAtributes atributes = bt.GetComponent<CharacterBase>().atributes;
 
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag(label);
+        List<GameObject> enemies = SceneObjects.Instance.GetObjectsWithTag(atributes.enemyLabel);
+
         foreach (GameObject en in enemies)
         {
             if (bt.gameObject == en) continue;

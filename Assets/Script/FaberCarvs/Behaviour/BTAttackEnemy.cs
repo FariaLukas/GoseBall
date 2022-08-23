@@ -15,17 +15,21 @@ public class BTAttackEnemy : BTNode
     {
         status = Status.RUNNING;
         CharacterBase character = bt.GetComponent<CharacterBase>();
-        CharacterAtributes atributes = character.atributes;
-        string label = atributes.enemyLabel;
-
+        SOAtributes atributes = character.atributes;
 
         GameObject enemy = null;
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag(label);
+        List<GameObject> enemies = SceneObjects.Instance.GetObjectsWithTag(atributes.enemyLabel);
         float distance = Mathf.Infinity;
 
         foreach (GameObject en in enemies)
         {
             if (bt.gameObject == en) continue;
+
+            if (GetEnemyWithBall(atributes, en, character))
+            {
+                enemy = en;
+                break;
+            }
 
             if (Vector3.Distance(bt.transform.position, en.transform.position) < distance)
             {
@@ -33,16 +37,6 @@ public class BTAttackEnemy : BTNode
                 distance = Vector3.Distance(bt.transform.position, en.transform.position);
             }
 
-            if (Manager.Instance.teamWithBall != atributes.allyLabel)
-            {
-                if (en.TryGetComponent(out CharacterBase enBase))
-                {
-                    if (enBase.haveTheBall && atributes.characterType == CharacterType.Ranged)
-                    {
-                        enemy = en;
-                    }
-                }
-            }
         }
 
         if (enemy)
@@ -54,6 +48,7 @@ public class BTAttackEnemy : BTNode
 
             AnimationManager.Instance.SetTrigger(character.animator, "Attack");
             yield return new WaitForSeconds(atributes.attackSync);
+            
             if (enemy)
             {
                 Vector3 position = bt.transform.position + bt.transform.forward;
@@ -69,7 +64,7 @@ public class BTAttackEnemy : BTNode
                 }
                 else
                 {
-                    enemy.GetComponent<CharacterBase>().TakeDamage(1);
+                    enemy.GetComponent<Health>().TakeDamage(1);
 
                 }
 
@@ -87,6 +82,15 @@ public class BTAttackEnemy : BTNode
         character.currentState = State();
 
         yield break;
+
+    }
+
+    private bool GetEnemyWithBall(SOAtributes atributes, GameObject enemy, CharacterBase character)
+    {
+        return atributes.characterType == CharacterType.Ranged && Manager.Instance.teamWithBall != null
+        && Manager.Instance.teamWithBall != atributes.allyLabel && enemy.TryGetComponent(out CharacterBase enBase)
+        && enBase.haveTheBall && Vector3.Distance(enemy.transform.position, character.transform.position)
+        <= character.atributes.range;
 
     }
 }

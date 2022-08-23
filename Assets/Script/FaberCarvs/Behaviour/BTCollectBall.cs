@@ -11,13 +11,14 @@ public class BTCollectBall : BTNode
         AnimationManager.Instance.SetTrigger(characterBase.animator, "Idle");
 
         Transform character = bt.transform;
-        string label = characterBase.atributes.searchTarget.ToString();
-        GameObject ball = GameObject.FindGameObjectWithTag(label);
+        
+        GameObject ball = SceneObjects.Instance.GetObjectWithTag(characterBase.atributes.searchTarget.ToString());
 
-        if (Vector3.Distance(character.position, ball.transform.position) < 1.2f && !Manager.Instance.ballIsHolded)
+        if (Vector3.Distance(bt.transform.position, ball.transform.position) < 1.2f && !Manager.Instance.ballIsHolded)
         {
             AnimationManager.Instance.SetTrigger(characterBase.animator, "Catch");
             yield return new WaitForSeconds(1.7f);
+            
             if (!Manager.Instance.ballIsHolded)
             {
                 Manager.Instance.ChatchBall(ball, characterBase.atributes.allyLabel, bt.gameObject);
@@ -32,8 +33,8 @@ public class BTCollectBall : BTNode
         }
 
 
-        Print(bt.gameObject.name + " : " + Vector3.Distance(character.position, ball.transform.position).ToString());
-        characterBase.currentState = State(Vector3.Distance(character.position, ball.transform.position).ToString());
+        Print(bt.gameObject.name + " : " + Vector3.Distance(bt.transform.position, ball.transform.position).ToString());
+        characterBase.currentState = State(Vector3.Distance(bt.transform.position, ball.transform.position).ToString());
         yield break;
     }
 }

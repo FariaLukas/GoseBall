@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-public class ManageScenes : Singleton<ManageScenes>
+
+public class ManageScenes : MonoBehaviour
 {
-    public int index;
     public void LoadScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);

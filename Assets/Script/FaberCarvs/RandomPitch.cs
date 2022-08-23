@@ -11,15 +11,18 @@ public class RandomPitch : MonoBehaviour
     private void OnEnable()
     {
         source = GetComponent<AudioSource>();
+        
         if (!source)
             source = gameObject.AddComponent<AudioSource>();
+        
         source.mute = true;
+        
         if (playOnEnable)
         {
-            float random = Random.Range(pitch.x, pitch.y);
-            SoundManager.Instance?.PlaySfx(random, source.volume, source.clip);
+            Play();
         }
     }
+    
     public void Play()
     {
         float random = Random.Range(pitch.x, pitch.y);

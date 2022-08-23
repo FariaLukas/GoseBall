@@ -14,8 +14,6 @@ public class PoolManager : MonoBehaviour
     IEnumerator Spawn()
     {
 
-        Pool.Instance?.DestroyOne();
-
         yield return null;
         StartCoroutine(WaitToSpawn());
     }

@@ -6,46 +6,61 @@ using Sirenix.OdinInspector;
 public class TimerManager : Singleton<TimerManager>
 {
 
-    public TextMeshProUGUI timerText;
-    public float maxMatchTime = 20;
-    [HideInInspector]
-    public float timer;
-    public AudioClip countdown;
-    private bool ended;
-    private bool tenSec;
+    [SerializeField] private TextMeshProUGUI timerText;
+    [SerializeField] private float maxMatchTime = 20;
+    [SerializeField] private AudioClip countdown;
+
+    private float _timer;
+    private bool _countdownStarted;
+
     private void Start()
     {
-        timer = maxMatchTime;
+        _timer = maxMatchTime;
         Manager.Instance.OnEndGame += GameEnded;
+    }
+
+
+    private void OnDestroy()
+    {
+        Manager.Instance.OnEndGame -= GameEnded;
     }
 
     private void Update()
     {
-        float minutes = Mathf.FloorToInt(timer / 60);
-        float seconds = Mathf.FloorToInt(timer % 60);
-        timerText.text = minutes.ToString("00") + ":";
-        timerText.text = timerText.text + seconds.ToString("00");
+        if (_timer <= 0) return;
 
-        if (timer <= 1)
+        SetupUI();
+
+        if (_timer <= 1)
         {
-            timer = 0;
-            if (!ended)
-            {
-                Manager.Instance.EndGame();
-                ended = true;
-            }
+            _timer = 0;
+            Manager.Instance.EndGame();
+
             return;
         }
-        if (timer <= 11 && !tenSec)
+
+        if (_timer <= 11 && !_countdownStarted)
         {
-            tenSec = true;
-            SoundManager.Instance.PlaySfx(1, 0.3f, countdown);
+            _countdownStarted = true;
+            SoundManager.Instance?.PlaySfx(1, 0.3f, countdown);
+            Debug.Log("STARTED CON");
         }
-        timer -= Time.deltaTime;
+
+        _timer -= Time.deltaTime;
     }
+
+    private void SetupUI()
+    {
+        float minutes = Mathf.FloorToInt(_timer / 60);
+        float seconds = Mathf.FloorToInt(_timer % 60);
+        timerText.text = minutes.ToString("00") + ":"
+        + seconds.ToString("00");
+    }
+
     private void GameEnded()
     {
-        ended = true;
-        timer = 0;
+        _timer = 0;
+
+        SoundManager.Instance?.StopSfx(countdown);
     }
 }

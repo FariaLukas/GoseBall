@@ -15,11 +15,13 @@ public class BTMoveToObject : BTNode
 {
     private MoveTarget _target;
     private float _range;
+
     public BTMoveToObject(MoveTarget target, float range)
     {
         _target = target;
         _range = range;
     }
+
     public override IEnumerator Run(BehaviorTree bt)
     {
         status = Status.RUNNING;
@@ -29,8 +31,8 @@ public class BTMoveToObject : BTNode
 
         Transform character = bt.transform;
         Transform obj = null;
-
-        GameObject[] objects = GameObject.FindGameObjectsWithTag(_target.ToString());
+       
+        List<GameObject> objects = SceneObjects.Instance.GetObjectsWithTag(_target.ToString());
         float distance = Mathf.Infinity;
 
         foreach (GameObject ob in objects)
@@ -42,8 +44,10 @@ public class BTMoveToObject : BTNode
                 distance = Result(character, ob);
             }
         }
+
         if (obj)
             AnimationManager.Instance.SetBool(characterBase.animator, "Run_", true);
+
         while (true)
         {
             if (!obj)

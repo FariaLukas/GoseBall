@@ -4,26 +4,36 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using DG.Tweening;
+using Sirenix.OdinInspector;
+
 public class Manager : Singleton<Manager>
 {
     public bool ballIsHolded;
     public string teamWithBall;
     public float maxPoints;
-    public Image enemyBar;
-    public Image allyBar;
+    public Image allyBar, enemyBar;
+
     public GameObject loseScreen;
     public GameObject winScreen;
 
     private Rigidbody _ballRigidbody;
-    private float _currentEnemyPoints;
-    private float _currentAllyPoints;
+
     public Action OnEndGame;
     private GameObject _npc;
+    private bool _gameEnded;
+
+    private Dictionary<MoveTarget, ScoreSetup> _scores
+    = new Dictionary<MoveTarget, ScoreSetup>();
 
     private void Start()
     {
-        allyBar.fillAmount = _currentAllyPoints / maxPoints;
-        enemyBar.fillAmount = _currentEnemyPoints / maxPoints;
+        _scores.Add(MoveTarget.Enemy, new ScoreSetup(enemyBar));
+        _scores.Add(MoveTarget.Ally, new ScoreSetup(allyBar));
+
+        foreach (KeyValuePair<MoveTarget, ScoreSetup> s in _scores)
+        {
+            s.Value.SetupBar(maxPoints);
+        }
     }
 
     private void LateUpdate()
@@ -55,23 +65,14 @@ public class Manager : Singleton<Manager>
 
     public void FillBar(MoveTarget target, float multiplier)
     {
-        if (target == MoveTarget.Ally)
-        {
-            if (_currentAllyPoints < maxPoints)
-                _currentAllyPoints += Time.deltaTime * multiplier;
+        var score = _scores[target];
 
-            allyBar.fillAmount = _currentAllyPoints / maxPoints;
+        if (score.score < maxPoints)
+            score.score += Time.deltaTime * multiplier;
 
-        }
+        score.SetupBar(maxPoints);
 
-        if (target == MoveTarget.Enemy)
-        {
-            if (_currentEnemyPoints < maxPoints)
-                _currentEnemyPoints += Time.deltaTime * multiplier;
-
-            enemyBar.fillAmount = _currentEnemyPoints / maxPoints;
-        }
-        if (_currentEnemyPoints >= maxPoints || _currentAllyPoints >= maxPoints)
+        if (score.score >= maxPoints)
         {
             EndGame();
         }
@@ -79,11 +80,32 @@ public class Manager : Singleton<Manager>
 
     public void EndGame()
     {
+        if (_gameEnded) return;
+
         OnEndGame?.Invoke();
-        if (_currentEnemyPoints >= maxPoints || _currentEnemyPoints > _currentAllyPoints)
+
+        if (_scores[MoveTarget.Enemy].score >= maxPoints ||
+        _scores[MoveTarget.Enemy].score > _scores[MoveTarget.Ally].score)
             loseScreen.SetActive(true);
-        if (_currentAllyPoints >= maxPoints || _currentEnemyPoints < _currentAllyPoints)
+        else
             winScreen.SetActive(true);
 
+        _gameEnded = true;
+    }
+}
+
+public class ScoreSetup
+{
+    public Image bar;
+    public float score;
+
+    public ScoreSetup(Image bar)
+    {
+        this.bar = bar;
+    }
+
+    public void SetupBar(float maxValue)
+    {
+        bar.fillAmount = score / maxValue;
     }
 }

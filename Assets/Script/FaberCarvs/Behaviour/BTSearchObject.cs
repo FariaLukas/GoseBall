@@ -6,6 +6,7 @@ public enum SearchTarget
     Ball,
     Star
 }
+
 public class BTSearchObject : BTNode
 {
     public override IEnumerator Run(BehaviorTree bt)
@@ -13,7 +14,7 @@ public class BTSearchObject : BTNode
         CharacterBase characterBase = bt.GetComponent<CharacterBase>();
         string tag = characterBase.atributes.searchTarget.ToString();
 
-        if (GameObject.FindGameObjectWithTag(tag))
+        if (SceneObjects.Instance.GetObjectWithTag(tag))
         {
             status = Status.SUCCESS;
             Print();

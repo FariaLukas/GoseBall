@@ -6,7 +6,8 @@ using System.Linq;
 
 public class SoundManager : Singleton<SoundManager>
 {
-    private List<AudioSource> sources;
+    private List<AudioSource> _sources;
+
     protected override void Awake()
     {
         base.Awake();
@@ -16,32 +17,42 @@ public class SoundManager : Singleton<SoundManager>
 
     private void Start()
     {
-        sources = GetComponents<AudioSource>().ToList();
+        _sources = GetComponents<AudioSource>().ToList();
     }
 
     public void PlaySfx(float pitch, float volume, AudioClip clip)
     {
-        foreach (var s in sources)
-        {
-            if (s.isPlaying) continue;
-            if (!s.isPlaying)
-            {
-                s.volume = volume;
-                s.pitch = pitch;
-                if (clip != null)
-                    s.PlayOneShot(clip);
-                return;
-            }
-        }
-
-        AudioSource source = gameObject.AddComponent<AudioSource>();
-        sources.Add(source);
+        AudioSource source = GetAudioSource();
+        source.mute = false;
+        source.clip = clip;
         source.volume = volume;
         source.pitch = pitch;
         if (clip != null)
             source.PlayOneShot(clip);
     }
 
+    private AudioSource GetAudioSource()
+    {
+        foreach (var s in _sources)
+        {
+            if (!s.isPlaying)
+                return s;
+        }
+
+        AudioSource source = gameObject.AddComponent<AudioSource>();
+        _sources.Add(source);
+        return source;
+    }
+
+    public void StopSfx(AudioClip clip)
+    {
+        foreach (var s in _sources)
+        {
+            if (s != null && s.clip == clip)
+                s.Stop();
+        }
+        //_sources.Find(s => s != null && s.clip == clip).Stop();
+    }
 
 }
 
